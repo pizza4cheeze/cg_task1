@@ -9,38 +9,43 @@ public class DrawPanel extends JPanel {
     private final Color mediumGrassColor = new Color(2, 157, 14);
     private final Color darkGrassColor = new Color(2, 132, 8);
 
-    private final Color petalColor = new Color(234, 241, 240);
-    private final Color middleColor = new Color(237, 204, 61);
-
-
     @Override
     protected void paintComponent(Graphics g) {
         // размер клетки - 250 на 300
+        // начало рисования клеток - (50, 60)
+
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(mediumGrassColor);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-        g.setColor(lightGrassColor);
-        for (int x = 50; x < this.getWidth(); x+=500) {
-            g.fillRect(x, 0, 250, this.getHeight());
+        int startCellsByX = 50;
+        int startCellsByY = 60;
+
+        final int sizeOfCellsByX = 250;
+        final int sizeOfCellsByY = 300;
+
+        g2d.setColor(mediumGrassColor);
+        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+        g2d.setColor(lightGrassColor);
+        for (int x = startCellsByX; x < this.getWidth(); x += sizeOfCellsByX * 2) {
+            g2d.fillRect(x, 0, sizeOfCellsByX, this.getHeight());
         }
 
-        g.setColor(mediumGrassColor);
-        for (int y = 60; y < this.getHeight(); y += 600) {
-            g.fillRect(0, y, this.getWidth(), 300);
+        g2d.setColor(mediumGrassColor);
+        for (int y = startCellsByY; y < this.getHeight(); y += sizeOfCellsByY * 2) {
+            g2d.fillRect(0, y, this.getWidth(), sizeOfCellsByY);
         }
 
-        g.setColor(darkGrassColor);
-        for (int y = 60; y < this.getHeight(); y += 600) {
-            for (int x = -200; x < this.getWidth(); x += 500) {
-                g.fillRect(x, y, 250, 300);
+        g2d.setColor(darkGrassColor);
+        for (int y = startCellsByY; y < this.getHeight(); y += sizeOfCellsByY * 2) {
+            for (int x = startCellsByX - sizeOfCellsByX; x < this.getWidth(); x += sizeOfCellsByX * 2) {
+                g2d.fillRect(x, y, sizeOfCellsByX, sizeOfCellsByY);
             }
         }
 
-        Random random = new Random();
-        int amountOfDaisies = random.nextInt(this.getWidth() / 20);
-
-        
+        //PaintTools.makeCellBorders(g2d, 50, 60, this.getWidth(), this.getHeight());
+        PaintTools.createDaisies(g2d, this.getWidth(), this.getHeight());
+        //PaintTools.drawMelonPult(g2d, new Coordinate(startCellsByX + sizeOfCellsByX * 3 / 2, startCellsByY + sizeOfCellsByY * 3 / 2));
+        PaintTools.drawMelonPult(g2d, new Coordinate(425, 240));
 
     }
 }
