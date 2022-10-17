@@ -1,12 +1,52 @@
 package ru.vsu.cs.cg.grushevskaya;
 
+import ru.vsu.cs.cg.grushevskaya.graphicComponents.Daisy;
+import ru.vsu.cs.cg.grushevskaya.graphicComponents.MelonPult;
+
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PaintTools {
-    private final static Color petalColor = new Color(234, 241, 240);
-    private final static Color middleColor = new Color(237, 204, 61);
+    static Color lightGrassColor = new Color(4, 200, 20);
+    static Color mediumGrassColor = new Color(2, 157, 14);
+    static Color darkGrassColor = new Color(2, 132, 8);
+
+    static Color petalColor = new Color(234, 241, 240);
+    static Color middleColor = new Color(237, 204, 61);
+
+    static Color melonColor = new Color(83, 160, 35);
+    static Color stripesColor = new Color(144, 206, 91);
+    static Color slinkyColor = new Color(139, 104, 20);
+    static Color bucketColor = new Color(139, 104, 20);
+    static Color leavesColor = new Color(67, 215, 18);
+    static Color eyesColor = new Color(4, 2, 2);
+    static Color browsColor = new Color(48, 106, 15);
+    static Color contourColor = new Color(15, 53, 8);
+
+    public static void drawTheLawn(Graphics2D g2d, int width, int height) {
+        g2d.setColor(mediumGrassColor);
+        g2d.fillRect(0, 0, width, height);
+
+        g2d.setColor(lightGrassColor);
+        for (int x = 50; x < width; x += 500) {
+            g2d.fillRect(x, 0, 250, height);
+        }
+
+        g2d.setColor(mediumGrassColor);
+        for (int y = 60; y < height; y += 600) {
+            g2d.fillRect(0, y, width, 300);
+        }
+
+        g2d.setColor(darkGrassColor);
+        for (int y = 60; y < height; y += 600) {
+            for (int x = - 200; x < width; x += 500) {
+                g2d.fillRect(x, y, 250, 300);
+            }
+        }
+    }
 
     public static void drawMelonPult (Graphics2D g2d, Coordinate wmCoordinate) {
         int sizeOfHeadByX = 210;
@@ -16,7 +56,7 @@ public class PaintTools {
 
         MelonPult melonPult = new MelonPult(wmCoordinate);
 
-        paintWmWithStripes(g2d, wmCoordinate, melonPult, sizeOfHeadByX, sizeOfHeadByY);
+        paintWmWithStripes(g2d, wmCoordinate, melonPult, 210, 150);
 
         // рисование глаз и бровей
         g2d.setColor(melonPult.eyesColor);
@@ -134,32 +174,18 @@ public class PaintTools {
         g2d.drawOval(wmCoordinate.getX(), wmCoordinate.getY(), sizeOfHeadByX, sizeOfHeadByY);
     }
 
-    public static void makeCellBorders(Graphics2D g2d, int cellStartByX, int cellStartByY, int sizeByX, int sizeByY) {
-        g2d.setColor(Color.black);
-
-        g2d.setStroke(new BasicStroke(4));
-        for (int i = cellStartByY; i < sizeByY; i += 300) {
-            g2d.drawLine(0, i, sizeByX, i);
-        }
-
-        for (int i = cellStartByX; i < sizeByX; i += 250) {
-            g2d.drawLine(i, 0, i, sizeByY);
-        }
-    }
-
-    public static void createDaisies(Graphics2D g2d, int sizeByX, int sizeByY) {
-        int amountOfDaisies = sizeByX / 40;
-
+    public static ArrayList<Daisy> createDaisies(int amountOfDaisies) {
+        ArrayList<Daisy> daisies = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < amountOfDaisies; i++) {
-            int x = random.nextInt(sizeByX);
-            int y = random.nextInt(sizeByY);
-            Coordinate coordinateOfDaisy = new Coordinate(x, y);
-            drawDaisy(g2d, coordinateOfDaisy);
+            int x = random.nextInt(600);
+            int y = random.nextInt(800);
+            daisies.add(new Daisy(new Coordinate(x, y)));
         }
+        return daisies;
     }
 
-    private static void drawDaisy(Graphics2D g2d, Coordinate coordinateOfDaisy) {
+    public static void drawDaisy(Graphics2D g2d, Coordinate coordinateOfDaisy) {
         g2d.setColor(petalColor);
         g2d.fillOval(coordinateOfDaisy.getX() + 13, coordinateOfDaisy.getY(), 16, 12);
         g2d.fillOval(coordinateOfDaisy.getX() - 12, coordinateOfDaisy.getY(), 16, 12);
