@@ -19,4 +19,6 @@ public class MelonPult {
     public MelonPult(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
+
+
 }
